@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template Showcase | X Cozmoh</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">X Cozmoh</div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#" onclick="showView('home')" class="nav-link active">Home</a></li>
+            <li><a href="#" onclick="showView('admin')" class="nav-link">Add Template</a></li>
+            <li><a href="#" onclick="showView('dashboard')" class="nav-link">Dashboard</a></li>
+            <li><a href="#" onclick="showView('contact')" class="nav-link">Contact</a></li>
+        </ul>
+        <!-- Mobile navbar hamburger -->
+        <button class="nav-hamburger" id="navHamburger" onclick="toggleNavMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <!-- HOME/TEMPLATES VIEW -->
+    <div id="home-view" class="view-container">
+        <div class="container">
+            <h1>Interactive & <span>Creative Templates</span></h1>
+            <p class="page-subtitle">Browse, preview and copy links to stunning website templates</p>
+            
+            <!-- Search Bar -->
+            <div class="search-section">
+                <div class="search-container" style="position: relative;">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="template-search" placeholder="Search templates..." class="search-input" autocomplete="off">
+                    <div class="search-suggestions" id="search-suggestions"></div>
+                </div>
+            </div>
+            
+            <div class="template-grid">
+                <!-- Templates will be loaded dynamically from database -->
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                    <p>Loading templates...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN VIEW -->
+    <div id="admin-view" class="view-container" style="display: none;">
+        <div class="admin-container">
+            <a href="#" onclick="showView('home')" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Templates
+            </a>
+            
+            <h1>Add New Template</h1>
+            <p style="margin-bottom: 30px; color: #6c757d;">
+                Fill in the details below to add a new template to the showcase.
+            </p>
+            
+            <div id="message-container"></div>
+            
+            <form id="template-form">
+                <div class="form-group">
+                    <label for="template-name">
+                        <i class="fas fa-tag"></i> Template Name
+                    </label>
+                    <input 
+                        type="text" 
+                        id="template-name" 
+                        name="name" 
+                        placeholder="Enter template name (e.g., Modern Portfolio)"
+                        required
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="template-link">
+                        <i class="fas fa-link"></i> Template Link
+                    </label>
+                    <input 
+                        type="url" 
+                        id="template-link" 
+                        name="link" 
+                        placeholder="Enter template URL (e.g., https://example.com)"
+                        required
+                    >
+                </div>
+                
+                <button type="submit" class="submit-btn" id="submit-btn">
+                    <i class="fas fa-plus"></i> Add Template
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- DASHBOARD VIEW -->
+    <div id="dashboard-view" class="view-container" style="display: none;">
+        <!-- Mobile Toggle Button -->
+        <button class="mobile-panel-toggle" id="mobilePanelToggle" onclick="toggleMobilePanel()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Mobile Overlay -->
+        <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobilePanel()"></div>
+
+        <div class="dashboard-container">
+            <!-- Left Panel: Client & Project Details -->
+            <div class="left-panel">
+                <!-- Client Header -->
+                <div class="client-header">
+                    <h1 class="client-name">CLIENT: Dr. Ram Kishan Nag</h1>
+                    <div class="client-logo">
+                        <img src="logo.jpg" 
+                             alt="Medical Logo - Dr. Ram Kishan Nag" 
+                             class="logo-image"
+                             style="max-width: 80px !important; max-height: 80px !important; width: auto !important; height: auto !important;">
+                    </div>
+                    <div class="client-title">Dr. Ram Kishan Nag</div>
+                    
+                    <!-- Brand Colors inline with logo -->
+                    <div class="brand-colors-inline">
+                        <div class="color-dots" id="color-dots-container">
+                            <div class="color-dot" style="background-color: #1a3c5e;" data-name="Navy Blue" data-code="#1a3c5e"></div>
+                            <div class="color-dot" style="background-color: #e91e8c;" data-name="Pink" data-code="#e91e8c"></div>
+                            <div class="color-dot" style="background-color: #ffffff; border: 1px solid rgba(255,255,255,0.3);" data-name="White" data-code="#ffffff"></div>
+                            <div class="color-dot" style="background-color: #f4f8fb; border: 1px solid rgba(255,255,255,0.2);" data-name="Light Blue" data-code="#f4f8fb"></div>
+                        </div>
+                        <!-- Color Tooltip -->
+                        <div class="color-tooltip" id="color-tooltip">
+                            <div class="tooltip-swatch" id="tooltip-swatch"></div>
+                            <div class="tooltip-info">
+                                <span class="tooltip-name" id="tooltip-name"></span>
+                                <span class="tooltip-code" id="tooltip-code"></span>
+                            </div>
+                        </div>
+                        <div class="color-info">
+                            <span class="color-count">Brand Colors</span>
+                            <span class="color-details">drramkishannag.com</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Client Notes Section -->
+                <div class="section client-notes">
+                    <div class="notes-header">
+                        <h3>CLIENT NOTES</h3>
+                        <div class="notes-actions">
+                            <button class="save-notes-btn" onclick="saveNotes()" title="Save notes">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                            <button class="clear-notes-btn" onclick="clearNotes()" title="Clear all notes">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div 
+                        id="client-notes-editor"
+                        class="notes-editor" 
+                        contenteditable="true" 
+                        placeholder="Write your notes here..."
+                        oninput="autoSaveNotes()">
+                    </div>
+                </div>
+
+                <!-- Document Upload Section -->
+                <div class="section document-upload">
+                    <h3>DOCUMENT UPLOAD</h3>
+                    <label class="upload-btn" for="doc-upload-input">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload Files
+                    </label>
+                    <input type="file" id="doc-upload-input" multiple accept="*/*" onchange="handleFileUpload(this)" style="display:none;">
+                    <div id="uploaded-files-list" class="uploaded-files-list"></div>
+
+                    <!-- Progress Bar -->
+                    <div class="progress-section">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="checklist-progress-fill" style="width: 0%;"></div>
+                        </div>
+                        <span class="progress-text" id="checklist-progress-text">0% COMPLETE</span>
+                    </div>
+                </div>
+
+                <!-- Project Checklist Section -->
+                <div class="section project-checklist">
+                    <div class="checklist-header">
+                        <h3>PRODUCTION CHECKLIST <span id="checklist-count">(0 STEPS)</span></h3>
+                        <button class="undo-btn" id="undo-btn" onclick="undoDelete()" style="display:none;" title="Undo last delete">
+                            <i class="fas fa-undo"></i> Undo
+                        </button>
+                    </div>
+
+                    <div id="checklist-container"></div>
+
+                    <!-- Add new item -->
+                    <div class="add-checklist-row">
+                        <input type="text" id="new-checklist-input" class="new-checklist-input" placeholder="Add new task...">
+                        <button class="add-checklist-btn" onclick="addChecklistItem()">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Website Preview -->
+            <div class="right-panel" style="padding: 0 !important; margin: 0 !important; height: 100% !important; width: 100% !important;">
+                <div class="website-preview-section" style="width: 100% !important; height: 100% !important; position: relative !important;">
+                    <iframe 
+                        src="https://drramkishannag.com/" 
+                        class="website-iframe"
+                        style="width: 100% !important; height: 100% !important; border: none !important; position: absolute !important; top: 0 !important; left: 0 !important;"
+                        frameborder="0"
+                        scrolling="yes"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer id="templates">
+        <div class="footer-container">
+            <div class="footer-section about">
+                <h3>Template Showcase</h3>
+                <p>X Cozmoh is your dedicated partner for professional and cutting-edge website development. We specialize in creating custom, responsive, and high-performing digital experiences that drive business growth.</p>
+            </div>
+            
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">All Templates</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section social">
+                <h3>Follow X Cozmoh</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            &copy; 2025 Template Showcase. All rights reserved.
+        </div>
+    </footer>
+
+
+    <script src="main.js"></script>
+</body>
+</html>
